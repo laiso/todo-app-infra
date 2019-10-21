@@ -18,7 +18,12 @@ provider "google" {
   project    = "${var.project}-${terraform.workspace}"
   region     = "${var.region}"
   zone       = "${var.zone}"
-  credential = "${file("${var.service_account_json}")}"
+  credentials = "${file("${var.service_account_json}")}"
+}
+
+resource "google_service_account" "terraform" {
+  account_id   = "terraform"
+  display_name = "terraform"
 }
 
 resource "google_container_cluster" "primary" {
@@ -27,3 +32,4 @@ resource "google_container_cluster" "primary" {
   location           = "${var.zone}"
   initial_node_count = 1
 }
+
